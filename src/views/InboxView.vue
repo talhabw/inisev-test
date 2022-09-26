@@ -1,6 +1,7 @@
 <script>
 import { mapState, mapActions } from "pinia";
 import { useMailsStore } from "../stores/mails";
+import MailList from "../components/MailList.vue";
 
 export default {
   data() {
@@ -17,7 +18,6 @@ export default {
     },
     ...mapActions(useMailsStore, [
       "toggleRead",
-      "toggleChecked",
       "toggleAll",
       "markAsReadSelectedInboxMails",
       "archiveSelectedMails",
@@ -34,6 +34,7 @@ export default {
       e.preventDefault();
     });
   },
+  components: { MailList },
 };
 </script>
 
@@ -64,57 +65,7 @@ export default {
     </div>
 
     <div>
-      <ul class="list">
-        <li
-          v-for="mail in inboxMails"
-          :key="mail.id"
-          @click="openDetails(mail.id)"
-          :class="[mail.isRead ? 'list__mail--read' : '', 'list__mail']"
-        >
-          <input
-            @change="toggleChecked(mail.id)"
-            class="checkbox"
-            type="checkbox"
-            :checked="mail.isChecked"
-          />
-          <p>{{ mail.title }}</p>
-        </li>
-      </ul>
+      <MailList :mails="inboxMails" @openDetails="openDetails" />
     </div>
   </div>
 </template>
-
-<style>
-.list {
-  margin-top: 50px;
-  padding: 0;
-}
-
-.list__mail {
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  background-color: #f9f9f9;
-  margin-bottom: 10px;
-  border-radius: 15px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.list__mail--read {
-  opacity: 0.5;
-}
-
-.checkbox {
-  margin-right: 20px;
-}
-
-.btn--gray {
-  background-color: #f9f9f9;
-  border: 1px solid #f5f5f50b;
-}
-
-.btn--margin-right {
-  margin-right: 20px;
-}
-</style>

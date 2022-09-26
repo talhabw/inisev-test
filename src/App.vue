@@ -38,12 +38,3 @@ export default {
   />
   <RouterView @openDetails="openDetails" />
 </template>
-
-<style>
-.main {
-  width: 80%;
-  padding: 20px 50px;
-  height: 100vh;
-  overflow-y: scroll;
-}
-</style>

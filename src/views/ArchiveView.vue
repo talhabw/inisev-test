@@ -1,6 +1,7 @@
 <script>
 import { mapState, mapActions } from "pinia";
 import { useMailsStore } from "../stores/mails";
+import MailList from "../components/MailList.vue";
 
 export default {
   data() {
@@ -17,7 +18,6 @@ export default {
     },
     ...mapActions(useMailsStore, [
       "toggleRead",
-      "toggleChecked",
       "toggleAll",
       "markAsReadSelectedArchiveMails",
       "unarchiveSelectedMails",
@@ -34,6 +34,7 @@ export default {
       e.preventDefault();
     });
   },
+  components: { MailList },
 };
 </script>
 
@@ -64,22 +65,7 @@ export default {
     </div>
 
     <div>
-      <ul class="list">
-        <li
-          v-for="mail in archivedMails"
-          :key="mail.id"
-          @click="openDetails(mail.id)"
-          :class="[mail.isRead ? 'list__mail--read' : '', 'list__mail']"
-        >
-          <input
-            @change="toggleChecked(mail.id)"
-            class="checkbox"
-            type="checkbox"
-            :checked="mail.isChecked"
-          />
-          <p>{{ mail.title }}</p>
-        </li>
-      </ul>
+      <MailList :mails="archivedMails" @openDetails="openDetails" />
     </div>
   </div>
 </template>
